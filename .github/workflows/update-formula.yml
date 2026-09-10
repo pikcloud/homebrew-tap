@@ -1,0 +1,42 @@
+name: Update formula
+
+# Releases are published from an internal GitLab pipeline that cannot push here,
+# so the tap polls the public release API instead of being pushed to.
+on:
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to pin (empty = current release)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-formula
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Regenerate Formula/pikpak-cli.rb
+        run: scripts/update-formula.sh ${{ inputs.tag }}
+
+      - name: Commit
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- Formula/pikpak-cli.rb; then
+            echo "No formula change"
+            exit 0
+          fi
+          version="$(sed -n 's/^  version "\(.*\)"$/\1/p' Formula/pikpak-cli.rb)"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "pikpak-cli ${version}" -- Formula/pikpak-cli.rb
+          git push
