@@ -27,6 +27,35 @@ brew upgrade pikpak-cli
 
 Bash/zsh/fish completions are installed with the formula.
 
+## Referral code
+
+An install can carry a referral code, which lands in `~/.pikpak/affiliate`:
+
+```sh
+brew install pikcloud/tap/pikpak-cli --with-affiliate-<code>
+```
+
+The flag name has to contain the code because Homebrew rejects any flag a
+formula did not declare, and a formula declares its options when it is loaded.
+For callers that cannot append a flag — a piped script, a wrapper — the same
+code goes in the environment (the `HOMEBREW_` prefix is required; `brew` drops
+other variables before a formula runs):
+
+```sh
+HOMEBREW_PIKPAK_AFFILIATE=<code> brew install pikcloud/tap/pikpak-cli
+```
+
+A code is accepted only as `[A-Za-z0-9_-]{1,64}`, and an existing
+`~/.pikpak/affiliate` is never overwritten, so the first code recorded on a
+machine stays. The file is written from `caveats` rather than `install`,
+because the build sandbox denies every write to `$HOME`.
+
+Two consequences worth knowing:
+
+- `brew install -q` suppresses caveats, so it also skips writing the file.
+- The flag is stored in the install receipt but Homebrew drops unknown options
+  on `brew upgrade`, so a later upgrade neither fails nor rewrites the code.
+
 > Use `brew upgrade`, not `pikpak update`. The self-updater renames a freshly
 > downloaded binary over the Cellar file, which succeeds and then leaves the keg
 > out of sync with Homebrew's manifest. `brew reinstall pikpak-cli` restores it.
