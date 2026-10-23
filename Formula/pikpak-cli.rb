@@ -1,18 +1,18 @@
 class PikpakCli < Formula
   desc "Cloud storage command-line tool for PikPak"
   homepage "https://mypikpak.com"
-  version "0.5.3"
+  version "0.6.0"
 
   on_macos do
     on_arm do
       url "https://download.mypikpak.com/cli/release/v#{version}/pikpak_darwin_arm64",
           using: :nounzip
-      sha256 "d86f0e9db1fbfc0f1340a2acdffe65711dc3e63a885b02d298070dd119ec66c7"
+      sha256 "b0df7d96cc544908e6a5584ca81956a6490fbf71d4e003a40d9c02893c2fa559"
     end
     on_intel do
       url "https://download.mypikpak.com/cli/release/v#{version}/pikpak_darwin_amd64",
           using: :nounzip
-      sha256 "b9b2f1522d3a83c0f480c8f546ba06dd3bb7fdfa987aa67f9f2ca39db5afd13b"
+      sha256 "93e15acf9f65fbd6206362609a48cda70a0ee89d85e62ee7445e75be7684625c"
     end
   end
 
@@ -20,12 +20,12 @@ class PikpakCli < Formula
     on_arm do
       url "https://download.mypikpak.com/cli/release/v#{version}/pikpak_linux_arm64",
           using: :nounzip
-      sha256 "32a5866275908ff3fa758c12ed96994f0afddeb4f0fbfe057e7404799aed06a4"
+      sha256 "3c1edae39d884eeb67a8a9a8cddd6687632c8c898cae8151cd0ffcb9affd52fb"
     end
     on_intel do
       url "https://download.mypikpak.com/cli/release/v#{version}/pikpak_linux_amd64",
           using: :nounzip
-      sha256 "bc0c3ed646372cca0986738e802cd816b43b2b0ac36cd15231faffb139c095dc"
+      sha256 "59fcbf237bb6523d96a1470a703ae55a2ec97adbd7ec7fc04b99a20112597495"
     end
   end
 
